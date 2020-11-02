@@ -54,18 +54,50 @@ $('#search-btn').click(function () {
             for (let i = 0; i < fiveDayForecasts.length; i++) {
                 index = fiveDayForecasts[i];
 
-                let dateEl = $('<h2>').text(formatDate(res[index].dt_txt));
+                let card = $('<div>').addClass('card');
+                let cardBody1 = $('<div>').addClass('card-body');
+                let dateEl = $('<h5>').text(formatDate(res[index].dt_txt));
                 let icon = res[index].weather[0].icon;
                 let iconEl = $('<img>').attr('src', `http://openweathermap.org/img/wn/${icon}@2x.png`);
+                iconEl.addClass('img-fluid');
+                let cardBody2 = $('<div>').addClass('card-body');
                 let tempEl = $('<p>').html('temp: ' + res[index].main.temp + ' &#176;F');
                 let humidityEl = $('<p>').text('humidity: ' + res[index].main.humidity);
 
-                $('.five-day-container').append(dateEl, iconEl, tempEl, humidityEl);
+                cardBody1.append(dateEl);
+                cardBody2.append(tempEl, humidityEl);
+                card.append(cardBody1, iconEl, cardBody2);
+
+                $('.five-day-container').append(card);
             }
 
 
 
         })
+
+
+        /*
+        <div class="card" style="width: 17rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                            </div>
+                            <img class="card-img-top" src="" alt="Card image cap">
+                            <div class="card-body">
+                                <p>Item 1</p>
+                                <p>Item 2</p>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+        */
+        
 
             //http://openweathermap.org/img/wn/10d@2x.png
 

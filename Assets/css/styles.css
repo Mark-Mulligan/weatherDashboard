@@ -40,3 +40,9 @@ label {
 .weekly-forecast-container img {
     margin: 20px;
 }
+
+.card {
+    max-width: 12rem;
+    display: inline-block;
+    margin: 5px;
+}
