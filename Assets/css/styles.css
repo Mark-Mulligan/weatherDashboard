@@ -1,7 +1,15 @@
+body {
+    padding: none;
+}
+
 label {
     display: block;
     font-size: 20px;
     font-weight: 600;
+}
+
+span {
+    margin-left: 7px;
 }
 
 .title-container {
@@ -11,26 +19,33 @@ label {
     background-color: rgb(33, 33, 33);
 }
 
-.main-content-container {
+.left-col {
     padding-top: 15px;
+    padding-bottom: 15px;
 }
 
-.left-col {
-    margin-bottom: 25px;
+@media (min-width: 992px) {
+    .left-col {
+        min-height: 100vh;
+    }
 }
 
 .weather-info-container {
-    border: 1px solid;
     padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .weather-info-container h2 {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+}
+
+.weather-info-container img {
+    margin-left: 15px;
 }
 
 .weekly-forecast-container {
     padding: 10px;
-    border: 1px solid;
 }
 
 .weekly-forecast-container h2 {
@@ -41,8 +56,35 @@ label {
     margin: 20px;
 }
 
+.five-day-container {
+    display: inline-block;
+    margin: auto;
+}
+
+@media (max-width: 400px) {
+    .weekly-forecast-container {
+        text-align: center;
+    }
+}
+
 .card {
     max-width: 12rem;
     display: inline-block;
-    margin: 5px;
+    margin: 7px;
+}
+
+.icon-wrapper {
+    text-align: center;
+}
+
+.card img {
+    margin: 7px;
+}
+
+.light-background {
+    background-color: rgb(213, 211, 210);
+}
+
+.hidden {
+    display: none;
 }

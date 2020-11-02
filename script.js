@@ -20,12 +20,28 @@ $('#search-btn').click(function () {
             method: "GET"
         }).then(function (response) {
             console.log(response);
-            $('#location').text(response.name);
+
+            $('.weather-info-container').removeClass('hidden');
+
+            let today = new Date();
+            let dd = today.getDate();
+            let mm = today.getMonth() + 1;
+            let yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            //today = mm + '-' + dd + '-' + yyyy;
+            today = mm + '/' + dd + '/' + yyyy;
+        
+            $('#location').text(response.name + ' ' + today);
             let icon = response.weather[0].icon;
             $('#main-icon').attr('src', `http://openweathermap.org/img/wn/${icon}@2x.png`);
-            $('#temperature').html(response.main.temp + ' &#176;F');
-            $('#humidity').text(response.main.humidity + '%');
-            $('#wind-speed').text(response.wind.speed + ' MPH');
+            $('#temperature').html('Temperature: ' + response.main.temp + ' &#176;F');
+            $('#humidity').text('Humidity: ' + response.main.humidity + '%');
+            $('#wind-speed').text('Wind Speed: ' + response.wind.speed + ' MPH');
 
             let lat = response.coord.lat;
             let lon = response.coord.lon;
@@ -36,7 +52,8 @@ $('#search-btn').click(function () {
                 url: uviURL,
                 method: "GET"
             }).then(function (data) {
-                $('#uv-index').text(data.value);
+                $('#uv-index').text('UV Index: ' + data.value);
+                
             })
         });
 
@@ -47,6 +64,8 @@ $('#search-btn').click(function () {
             url: fiveDayURL,
             method: "GET"
         }).then(function (data) {
+
+            $('.weekly-forecast-container').removeClass('hidden');
             let res = data.list;
             find3pmTimes(res);
             let index = 0;
@@ -56,17 +75,21 @@ $('#search-btn').click(function () {
 
                 let card = $('<div>').addClass('card');
                 let cardBody1 = $('<div>').addClass('card-body');
+                cardBody1.addClass('border-bottom');
                 let dateEl = $('<h5>').text(formatDate(res[index].dt_txt));
                 let icon = res[index].weather[0].icon;
                 let iconEl = $('<img>').attr('src', `http://openweathermap.org/img/wn/${icon}@2x.png`);
-                iconEl.addClass('img-fluid');
+                let iconWrapper = $('<div>').addClass('icon-wrapper');
+                //iconEl.addClass('img-fluid');
                 let cardBody2 = $('<div>').addClass('card-body');
+                cardBody2.addClass('border-top');
                 let tempEl = $('<p>').html('temp: ' + res[index].main.temp + ' &#176;F');
                 let humidityEl = $('<p>').text('humidity: ' + res[index].main.humidity);
 
                 cardBody1.append(dateEl);
+                iconWrapper.append(iconEl);
                 cardBody2.append(tempEl, humidityEl);
-                card.append(cardBody1, iconEl, cardBody2);
+                card.append(cardBody1, iconWrapper, cardBody2);
 
                 $('.five-day-container').append(card);
             }
@@ -88,18 +111,10 @@ $('#search-btn').click(function () {
                             </div>
                         </div>
 
-
-
-
-
-
-
-
-
         */
-        
 
-            //http://openweathermap.org/img/wn/10d@2x.png
+
+        //http://openweathermap.org/img/wn/10d@2x.png
 
         //https://api.openweathermap.org/data/2.5/forecast?q=dallas&appid=af81902a8a73c933aeffc3228ff6f7f1&units=imperial`
 
@@ -126,8 +141,12 @@ function find3pmTimes(array) {
     }
 }
 
-function formatDate (str) {
+function formatDate(str) {
     let year = str.slice(0, 4);
-    let dayMonth = str.slice(5,10);
-    return dayMonth + '-' + year;
+    let month = str.slice(5, 7);
+    let day = str.slice(8,10);
+    console.log(year);
+    console.log(month);
+    console.log(day);
+    return `${month}/${day}/${year}`;
 }
