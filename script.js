@@ -19,8 +19,10 @@ $('#search-btn').click(function () {
             url: url,
             method: "GET"
         }).then(function (response) {
-
+            console.log(response);
             $('#location').text(response.name);
+            let icon = response.weather[0].icon;
+            $('#main-icon').attr('src', `http://openweathermap.org/img/wn/${icon}@2x.png`);
             $('#temperature').html(response.main.temp + ' &#176;F');
             $('#humidity').text(response.main.humidity + '%');
             $('#wind-speed').text(response.wind.speed + ' MPH');
@@ -53,17 +55,19 @@ $('#search-btn').click(function () {
                 index = fiveDayForecasts[i];
 
                 let dateEl = $('<h2>').text(formatDate(res[index].dt_txt));
-                let iconEl = $('<p>').text(res[index].weather[0].icon);
-                let tempEL = $('<p>').text('temp: ' + res[index].main.temp);
+                let icon = res[index].weather[0].icon;
+                let iconEl = $('<img>').attr('src', `http://openweathermap.org/img/wn/${icon}@2x.png`);
+                let tempEl = $('<p>').html('temp: ' + res[index].main.temp + ' &#176;F');
                 let humidityEl = $('<p>').text('humidity: ' + res[index].main.humidity);
 
-                $('.five-day-container').append(dateEl, iconEl, tempEL, humidityEl);
+                $('.five-day-container').append(dateEl, iconEl, tempEl, humidityEl);
             }
 
 
 
         })
 
+            //http://openweathermap.org/img/wn/10d@2x.png
 
         //https://api.openweathermap.org/data/2.5/forecast?q=dallas&appid=af81902a8a73c933aeffc3228ff6f7f1&units=imperial`
 
