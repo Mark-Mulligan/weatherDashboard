@@ -1,0 +1,42 @@
+label {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.title-container {
+    padding: 25px;
+    text-align: center;
+    color: 	rgb(213, 211, 210);
+    background-color: rgb(33, 33, 33);
+}
+
+.main-content-container {
+    padding-top: 15px;
+}
+
+.left-col {
+    margin-bottom: 25px;
+}
+
+.weather-info-container {
+    border: 1px solid;
+    padding: 10px;
+}
+
+.weather-info-container h2 {
+    margin-bottom: 25px;
+}
+
+.weekly-forecast-container {
+    padding: 10px;
+    border: 1px solid;
+}
+
+.weekly-forecast-container h2 {
+    margin-bottom: 25px;
+}
+
+.weekly-forecast-container img {
+    margin: 20px;
+}
