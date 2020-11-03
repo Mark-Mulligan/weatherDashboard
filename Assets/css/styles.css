@@ -20,7 +20,7 @@ h2 {
 .title-container {
     padding: 25px;
     text-align: center;
-    color: rgb(213, 211, 210);
+    color: white;
     background-color: rgb(33, 33, 33);
 }
 
@@ -29,14 +29,42 @@ h2 {
     padding-bottom: 15px;
 }
 
+.left-col h5 {
+    font-weight: 700;
+    padding-top: 5px;
+}
+
 @media (min-width: 992px) {
     .left-col {
         min-height: 100vh;
     }
 }
 
-#search-item {
-    border: solid 1px;
+.search-list {
+    border-top: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
+    width: 196px;
+    max-height: 120px;
+    overflow: scroll;
+    display: inline-block;
+}
+
+@media (min-width: 992px) {
+    .search-list {
+        max-height: 470px;
+    }
+}
+
+.reset-btn {
+    position: absolute;
+    transform: translateX(5px);
+}
+
+.search-item {
+    border-bottom: solid 1px;
+    padding: 5px;
+    background-color: white;
 }
 
 
@@ -125,6 +153,10 @@ h2 {
 
 .hidden {
     display: none;
+}
+
+.invisible {
+    visibility: hidden;
 }
 
 .extreme {

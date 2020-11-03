@@ -27,18 +27,30 @@
     <div class="container-fluid main-content-container">
         <div class="row">
             <div class="col-lg-4 col-12 left-col light-background">
-                <form action="/" method="POST">
-                    <label for="cityNameInput" id="citySearchLabel">Search for a City:</label>
-                    <input type="text" name="cityNameInput" id="cityNameInput">
-                    <button type="submit" class="btn btn-primary" id="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
-
-                <div class="previous-searches-container">
-                    <h5>Previous Searches: </h5>
-                    <div class="search-list"></div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-6">
+                            <form action="/" method="POST">
+                                <label for="cityNameInput" id="citySearchLabel">Search for a City:</label>
+                                <input type="text" name="cityNameInput" id="cityNameInput">
+                                <button type="submit" class="btn btn-primary" id="search-btn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-lg-12 col-sm-6">
+                            <div class="previous-searches-container">
+                                <h5>Previous Searches: </h5>
+                                <div class="search-list invisible"></div>
+                                <button class="btn btn-primary reset-btn invisible" id="reset-searches-btn">Reset</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                
+
+               
 
             </div>
             <div class="col-lg-8 col-12">

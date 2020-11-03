@@ -1,13 +1,23 @@
 let fiveDayForecasts = [];
 let citySearchHistory = [];
 let cityName = '';
+const apiKey = "af81902a8a73c933aeffc3228ff6f7f1";
+const units = "imperial";
 
-if (JSON.parse(localStorage.getItem('citySearchHistory') !== null)) {
+citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
+
+if (citySearchHistory !== null && citySearchHistory.length > 0) {
     console.log('search history exisits in local stoarge');
     citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
     citySearchHistory.forEach(function (city) {
         $('.search-list').append(`<div class="search-item">${city}</div>`);
     })
+    $('.search-list').removeClass('invisible');
+    $('.reset-btn').removeClass('invisible');
+
+
+    cityName = citySearchHistory[0];
+    getWeatherDataAndDisplayIt();
 }
 
 $('#search-btn').click(function () {
@@ -17,47 +27,80 @@ $('#search-btn').click(function () {
 
     if ($('#cityNameInput').val() !== '') {
         updateCitySearch();
-
-        const apiKey = "af81902a8a73c933aeffc3228ff6f7f1";
-        const units = "imperial";
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${units}`;
-
-        $.ajax({
-            url: url,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            displayCurrentWeather(response);
-
-            let uviURL = `https://api.openweathermap.org/data/2.5/uvi?lat=${response.coord.lat}&lon=${response.coord.lon}&appid=${apiKey}`;
-
-            $.ajax({
-                url: uviURL,
-                method: "GET"
-            }).then(function (data) {
-                displayUVIndex(data);
-            })
-        });
-
-        const fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=${units}`;
-
-        $.ajax({
-            url: fiveDayURL,
-            method: "GET"
-        }).then(function (data) {
-            let res = data.list;
-            find3pmTimes(res);
-            createForecastCards(res);
-        })
+        getWeatherDataAndDisplayIt()
+        $('.search-list').removeClass('invisible');
+        $('.reset-btn').removeClass('invisible');
     }
 })
 
-function updateCitySearch() {
-    cityName = $('#cityNameInput').val().trim();
-    citySearchHistory.unshift(cityName);
+$('#reset-searches-btn').click(function () {
+    citySearchHistory = [];
     localStorage.setItem('citySearchHistory', JSON.stringify(citySearchHistory));
-    $('.search-list').prepend(`<div class="search-item">${cityName}</div>`);
-    $('#citynameInput').val('');
+    $('.search-list').empty();
+    $('.search-list').addClass('invisible');
+    $('.reset-btn').addClass('invisible');
+})
+
+function getWeatherDataAndDisplayIt() {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${units}`;
+    $.ajax({
+        url: url,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        displayCurrentWeather(response);
+
+        const uviURL = `https://api.openweathermap.org/data/2.5/uvi?lat=${response.coord.lat}&lon=${response.coord.lon}&appid=${apiKey}`;
+        $.ajax({
+            url: uviURL,
+            method: "GET"
+        }).then(function (data) {
+            displayUVIndex(data);
+        })
+    });
+
+    const fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=${units}`;
+    $.ajax({
+        url: fiveDayURL,
+        method: "GET"
+    }).then(function (data) {
+        let res = data.list;
+        find3pmTimes(res);
+        createForecastCards(res);
+    })
+}
+
+function updateCitySearch() {
+    $('.search-list').empty();
+    cityName = formatSearch($('#cityNameInput').val().trim());
+    checkForDuplicate(cityName, citySearchHistory);
+    console.log(citySearchHistory);
+    localStorage.setItem('citySearchHistory', JSON.stringify(citySearchHistory));
+    citySearchHistory.forEach(function (city) {
+        $('.search-list').append(`<div class="search-item">${city}</div>`);
+    })
+    $('#cityNameInput').val('');
+}
+
+function checkForDuplicate(input, arr) {
+    if (arr.includes(input)) {
+        arr.splice(arr.indexOf(input), 1);
+    }
+    arr.unshift(input);
+}
+
+function capitalizeFirstLetter(str) {
+    let otherLetters = str.toLowerCase().slice(1, str.length);
+    return str.charAt(0).toUpperCase() + otherLetters;
+}
+
+function formatSearch(str) {
+    let words = str.split(' ');
+    let result = []
+    words.forEach(function (word) {
+        result.push(capitalizeFirstLetter(word));
+    })
+    return result.join(' ');
 }
 
 function createForecastCards(res) {
