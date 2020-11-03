@@ -4,18 +4,23 @@ body {
 
 label {
     display: block;
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
 }
 
-span {
-    margin-left: 7px;
+input {
+    font-size: 18px;
+}
+
+h2 {
+    font-weight: bold;
+    padding-left: 8px;
 }
 
 .title-container {
     padding: 25px;
     text-align: center;
-    color: 	rgb(213, 211, 210);
+    color: rgb(213, 211, 210);
     background-color: rgb(33, 33, 33);
 }
 
@@ -30,6 +35,11 @@ span {
     }
 }
 
+#search-item {
+    border: solid 1px;
+}
+
+
 .weather-info-container {
     padding: 10px;
     margin-top: 15px;
@@ -38,14 +48,28 @@ span {
 
 .weather-info-container h2 {
     margin-bottom: 15px;
+    display: inline-block;
 }
 
 .weather-info-container img {
     margin-left: 15px;
 }
 
+.weather-info-container p {
+    font-weight: bold;
+    font-size: 18px;
+    padding-left: 8px;
+}
+
+.weather-info-container span {
+    font-weight: normal;
+}
+
 .weekly-forecast-container {
     padding: 10px;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .weekly-forecast-container h2 {
@@ -56,16 +80,16 @@ span {
     margin: 20px;
 }
 
+#uv-index {
+    padding: 7px;
+    border-radius: 10px;
+}
+
 .five-day-container {
     display: inline-block;
     margin: auto;
 }
 
-@media (max-width: 400px) {
-    .weekly-forecast-container {
-        text-align: center;
-    }
-}
 
 .card {
     max-width: 12rem;
@@ -77,8 +101,22 @@ span {
     text-align: center;
 }
 
+.card h5 {
+    font-weight: bold;
+    font-size: 20px;
+}
+
 .card img {
     margin: 7px;
+}
+
+.card p {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.card span {
+    font-weight: normal;
 }
 
 .light-background {
@@ -87,4 +125,24 @@ span {
 
 .hidden {
     display: none;
+}
+
+.extreme {
+    background-color: #8d49ca;
+}
+
+.very-high {
+    background-color: #e24d20;
+}
+
+.high {
+    background-color: #f78010;
+}
+
+.moderate {
+    background-color: #fac10c;
+}
+
+.favorable {
+    background-color: #9bc405;
 }
