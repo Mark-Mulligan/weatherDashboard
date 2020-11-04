@@ -102,6 +102,7 @@ h2 {
     background-attachment: fixed;
     background-position: center;
     padding-bottom: 50px;
+    min-height: 100vh;
 }
 
 /* current weather data */
