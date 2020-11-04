@@ -1,3 +1,5 @@
+/* General Element Selectors */
+
 body {
     padding: none;
 }
@@ -15,15 +17,19 @@ input {
 h2 {
     font-weight: bold;
     padding-left: 8px;
+    font-size: 28px;
 }
 
+/* Heading element */
 .title-container {
     padding: 25px;
     text-align: center;
     color: white;
-    background-color: rgb(33, 33, 33);
+    background-color:rgb(26, 76, 135)
+    /* background-color: rgb(33, 33, 33); */
 }
 
+/* ----- Left Side ----- */
 .left-col {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -34,9 +40,16 @@ h2 {
     padding-top: 5px;
 }
 
+.search-input-history-wrapper {
+    background-color:rgba(176, 188, 207, 0.8);
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 @media (min-width: 992px) {
-    .left-col {
-        min-height: 100vh;
+    .search-input-history-wrapper {
+        min-height: 716px;
     }
 }
 
@@ -56,22 +69,38 @@ h2 {
     }
 }
 
-.reset-btn {
-    position: absolute;
-    transform: translateX(5px);
-}
-
 .search-item {
     border-bottom: solid 1px;
     padding: 5px;
     background-color: white;
 }
 
+.search-item:hover {
+    cursor: pointer;
+    background-color: rgb(170, 170, 170);
+}
 
+.reset-btn {
+    position: absolute;
+    transform: translateX(5px);
+}
+
+/* ----- Right Side/Main Content -----*/
+
+.main-content-container {
+    background-image: url('../images/weather.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    padding-bottom: 50px;
+}
+
+/* current weather data */
 .weather-info-container {
     padding: 10px;
     margin-top: 15px;
     margin-bottom: 15px;
+    background-color:rgba(176, 188, 207, 0.8);
 }
 
 .weather-info-container h2 {
@@ -83,29 +112,16 @@ h2 {
     margin-left: 15px;
 }
 
+/* used to make info-labels bold */
 .weather-info-container p {
     font-weight: bold;
     font-size: 18px;
     padding-left: 8px;
 }
 
+/* used to make data not bold */
 .weather-info-container span {
     font-weight: normal;
-}
-
-.weekly-forecast-container {
-    padding: 10px;
-    white-space: nowrap;
-    overflow-x: scroll;
-    overflow-y: hidden;
-}
-
-.weekly-forecast-container h2 {
-    margin-bottom: 25px;
-}
-
-.weekly-forecast-container img {
-    margin: 20px;
 }
 
 #uv-index {
@@ -113,25 +129,46 @@ h2 {
     border-radius: 10px;
 }
 
+/* 5 day forecast section */
+
+.weekly-forecast-container {
+    padding: 10px;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    background-color: rgba(176, 188, 207, 0.8);
+}
+
+
+.weekly-forecast-container h2 {
+    margin-bottom: 25px;
+}
+
 .five-day-container {
     display: inline-block;
     margin: auto;
 }
 
+.five-day-container img {
+    margin: 20px;
+}
 
+/* styles for each forcasted day */
 .card {
     max-width: 12rem;
     display: inline-block;
     margin: 7px;
-}
-
-.icon-wrapper {
-    text-align: center;
+    background-color:rgb(86, 144, 197);
+    color: white;
 }
 
 .card h5 {
     font-weight: bold;
     font-size: 20px;
+}
+
+.icon-wrapper {
+    text-align: center;
 }
 
 .card img {
@@ -147,9 +184,7 @@ h2 {
     font-weight: normal;
 }
 
-.light-background {
-    background-color: rgb(213, 211, 210);
-}
+/* General Style Classes */
 
 .hidden {
     display: none;
@@ -159,6 +194,7 @@ h2 {
     visibility: hidden;
 }
 
+/* UV-Ratings */
 .extreme {
     background-color: #8d49ca;
 }

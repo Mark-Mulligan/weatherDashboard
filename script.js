@@ -15,18 +15,24 @@ if (citySearchHistory !== null && citySearchHistory.length > 0) {
     $('.search-list').removeClass('invisible');
     $('.reset-btn').removeClass('invisible');
 
-
     cityName = citySearchHistory[0];
+    getWeatherDataAndDisplayIt();
+}
+
+$('.search-item').click(handleSearchHistoryClick);
+
+function handleSearchHistoryClick () {
+    console.log($(this).text());
+    updateCitySearch($(this).text());
     getWeatherDataAndDisplayIt();
 }
 
 $('#search-btn').click(function () {
     event.preventDefault();
-    $('.five-day-container').empty();
-    fiveDayForecasts = [];
+    //fiveDayForecasts = [];
 
     if ($('#cityNameInput').val() !== '') {
-        updateCitySearch();
+        updateCitySearch($('#cityNameInput').val().trim());
         getWeatherDataAndDisplayIt()
         $('.search-list').removeClass('invisible');
         $('.reset-btn').removeClass('invisible');
@@ -70,9 +76,9 @@ function getWeatherDataAndDisplayIt() {
     })
 }
 
-function updateCitySearch() {
+function updateCitySearch(inputCity) {
     $('.search-list').empty();
-    cityName = formatSearch($('#cityNameInput').val().trim());
+    cityName = formatSearch(inputCity);
     checkForDuplicate(cityName, citySearchHistory);
     console.log(citySearchHistory);
     localStorage.setItem('citySearchHistory', JSON.stringify(citySearchHistory));
@@ -80,6 +86,7 @@ function updateCitySearch() {
         $('.search-list').append(`<div class="search-item">${city}</div>`);
     })
     $('#cityNameInput').val('');
+    $('.search-item').click(handleSearchHistoryClick);
 }
 
 function checkForDuplicate(input, arr) {
@@ -104,8 +111,11 @@ function formatSearch(str) {
 }
 
 function createForecastCards(res) {
+    $('.five-day-container').empty();
     $('.weekly-forecast-container').removeClass('hidden');
     let index = 0;
+
+    console.log(fiveDayForecasts);
 
     for (let i = 0; i < fiveDayForecasts.length; i++) {
         index = fiveDayForecasts[i];
@@ -139,6 +149,7 @@ function displayCurrentWeather(response) {
 
 function displayUVIndex(data) {
     $('#uv-index').html(`${data.value}`);
+    $('#uv-index').removeClass();
     if (data.value > 10) $('#uv-index').addClass('extreme');
     else if (data.value >= 8) $('#uv-index').addClass('very-high');
     else if (data.value >= 6) $('#uv-index').addClass('high');
@@ -147,6 +158,7 @@ function displayUVIndex(data) {
 }
 
 function find3pmTimes(array) {
+    fiveDayForecasts = [];
     let timeRegex = /15:00:00/
 
     for (let i = 0; i < array.length; i++) {
