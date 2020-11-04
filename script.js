@@ -3,9 +3,10 @@ let cityName = '';
 const apiKey = "af81902a8a73c933aeffc3228ff6f7f1";
 const units = "imperial";
 
-citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
+//citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
 
 if (citySearchHistory !== null && citySearchHistory.length > 0) {
+    console.log('local storage called');
     citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
     citySearchHistory.forEach(function (city) {
         $('.search-list').append(`<div class="search-item">${city}</div>`);
@@ -72,9 +73,9 @@ function updateCitySearch(inputCity) {
     $('.search-list').empty();
     cityName = formatSearch(inputCity);
     console.log('cityName: ' + cityName);
-    if (citySearchHistory.length > 0) {
-        checkForDuplicate(cityName, citySearchHistory);
-    }
+    console.log(citySearchHistory);
+    checkForDuplicate(cityName, citySearchHistory);
+    
     
     localStorage.setItem('citySearchHistory', JSON.stringify(citySearchHistory));
     citySearchHistory.forEach(function (city) {
