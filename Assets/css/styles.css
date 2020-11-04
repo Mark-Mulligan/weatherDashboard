@@ -26,7 +26,6 @@ h2 {
     text-align: center;
     color: white;
     background-color:rgb(26, 76, 135)
-    /* background-color: rgb(33, 33, 33); */
 }
 
 /* ----- Left Side ----- */
@@ -56,12 +55,6 @@ h2 {
     padding-bottom: 10px;
 }
 
-@media (min-width: 992px) {
-    .search-input-history-wrapper {
-        min-height: 716px;
-    }
-}
-
 .search-list {
     border-top: solid 1px;
     border-left: solid 1px;
@@ -72,11 +65,7 @@ h2 {
     display: inline-block;
 }
 
-@media (min-width: 992px) {
-    .search-list {
-        max-height: 470px;
-    }
-}
+
 
 .search-item {
     border-bottom: solid 1px;
@@ -224,3 +213,28 @@ h2 {
 .favorable {
     background-color: #9bc405;
 }
+
+/* Media Queries */
+
+@media (min-width: 992px) {
+    .search-input-history-wrapper {
+        min-height: 747px;
+    }
+}
+
+@media (min-width: 992px) {
+    .search-list {
+        max-height: 470px;
+    }
+}
+
+@media (max-width: 333px) {
+    .search-list {
+        width: 65%;
+    }
+
+    input {
+        width: 65%;
+    }
+}
+
