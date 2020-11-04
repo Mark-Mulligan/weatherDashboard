@@ -28,6 +28,7 @@ $('#search-btn').click(function () {
     event.preventDefault();
 
     if ($('#cityNameInput').val() !== '') {
+        console.log($('#cityNameInput').val().trim());
         updateCitySearch($('#cityNameInput').val().trim());
         getWeatherDataAndDisplayIt()
         $('.search-list').removeClass('invisible');
