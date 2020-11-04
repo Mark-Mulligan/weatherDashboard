@@ -71,7 +71,11 @@ function getWeatherDataAndDisplayIt() {
 function updateCitySearch(inputCity) {
     $('.search-list').empty();
     cityName = formatSearch(inputCity);
-    checkForDuplicate(cityName, citySearchHistory);
+    console.log('cityName: ' + cityName);
+    if (citySearchHistory.length > 0) {
+        checkForDuplicate(cityName, citySearchHistory);
+    }
+    
     localStorage.setItem('citySearchHistory', JSON.stringify(citySearchHistory));
     citySearchHistory.forEach(function (city) {
         $('.search-list').append(`<div class="search-item">${city}</div>`);
