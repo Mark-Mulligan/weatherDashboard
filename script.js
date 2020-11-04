@@ -1,4 +1,3 @@
-let fiveDayForecasts = [];
 let citySearchHistory = [];
 let cityName = '';
 const apiKey = "af81902a8a73c933aeffc3228ff6f7f1";
@@ -7,7 +6,6 @@ const units = "imperial";
 citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
 
 if (citySearchHistory !== null && citySearchHistory.length > 0) {
-    console.log('search history exisits in local stoarge');
     citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
     citySearchHistory.forEach(function (city) {
         $('.search-list').append(`<div class="search-item">${city}</div>`);
@@ -22,14 +20,12 @@ if (citySearchHistory !== null && citySearchHistory.length > 0) {
 $('.search-item').click(handleSearchHistoryClick);
 
 function handleSearchHistoryClick () {
-    console.log($(this).text());
     updateCitySearch($(this).text());
     getWeatherDataAndDisplayIt();
 }
 
 $('#search-btn').click(function () {
     event.preventDefault();
-    //fiveDayForecasts = [];
 
     if ($('#cityNameInput').val() !== '') {
         updateCitySearch($('#cityNameInput').val().trim());
@@ -55,32 +51,26 @@ function getWeatherDataAndDisplayIt() {
     }).then(function (response) {
         console.log(response);
         displayCurrentWeather(response);
+        let lat = response.coord.lat;
+        let lon = response.coord.lon;
 
-        const uviURL = `https://api.openweathermap.org/data/2.5/uvi?lat=${response.coord.lat}&lon=${response.coord.lon}&appid=${apiKey}`;
+        const mutliDayURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`
         $.ajax({
-            url: uviURL,
+            url: mutliDayURL,
             method: "GET"
         }).then(function (data) {
-            displayUVIndex(data);
+            displayUVIndex(data);  
+            createForecastCards(data.daily);
         })
     });
 
-    const fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=${units}`;
-    $.ajax({
-        url: fiveDayURL,
-        method: "GET"
-    }).then(function (data) {
-        let res = data.list;
-        find3pmTimes(res);
-        createForecastCards(res);
-    })
+    //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 }
 
 function updateCitySearch(inputCity) {
     $('.search-list').empty();
     cityName = formatSearch(inputCity);
     checkForDuplicate(cityName, citySearchHistory);
-    console.log(citySearchHistory);
     localStorage.setItem('citySearchHistory', JSON.stringify(citySearchHistory));
     citySearchHistory.forEach(function (city) {
         $('.search-list').append(`<div class="search-item">${city}</div>`);
@@ -113,25 +103,22 @@ function formatSearch(str) {
 function createForecastCards(res) {
     $('.five-day-container').empty();
     $('.weekly-forecast-container').removeClass('hidden');
-    let index = 0;
 
-    console.log(fiveDayForecasts);
-
-    for (let i = 0; i < fiveDayForecasts.length; i++) {
-        index = fiveDayForecasts[i];
+    for (let i = 1; i < 6; i++) {
         let card = $('<div>').addClass('card');
         let cardBody1 = $('<div>').addClass('card-body border-bottom');
-        let dateEl = $('<h5>').text(formatDate(res[index].dt_txt));
-        let icon = res[index].weather[0].icon;
+        let dateEl = $('<h5>').text(formatDate(res[i].dt));
+        let icon = res[i].weather[0].icon;
         let iconEl = $('<img>').attr('src', `http://openweathermap.org/img/wn/${icon}@2x.png`);
         let iconWrapper = $('<div>').addClass('icon-wrapper');
         let cardBody2 = $('<div>').addClass('card-body border-top');
-        let tempEl = $(`<p>Temp: <span>${res[index].main.temp} &#176;F</span><p>`);
-        let humidityEl = $(`<p>Humidity: <span>${res[index].main.humidity}</span></p>`);
+        let highTempEl = $(`<p>High: <span>${res[i].temp.max} &#176;F</span><p>`);
+        let lowTempEl = $(`<p>Low: <span>${res[i].temp.min} &#176;F</span><p>`)
+        let humidityEl = $(`<p>Humidity: <span>${res[i].humidity}</span></p>`);
 
         cardBody1.append(dateEl);
         iconWrapper.append(iconEl);
-        cardBody2.append(tempEl, humidityEl);
+        cardBody2.append(highTempEl, lowTempEl, humidityEl);
         card.append(cardBody1, iconWrapper, cardBody2);
         $('.five-day-container').append(card);
     }
@@ -139,7 +126,7 @@ function createForecastCards(res) {
 
 function displayCurrentWeather(response) {
     $('.weather-info-container').removeClass('hidden');
-    $('#location').text(response.name + ' ' + getCurrentDate());
+    $('#location').text(response.name + ' ' + formatDate(response.dt));
     let icon = response.weather[0].icon;
     $('#main-icon').attr('src', `http://openweathermap.org/img/wn/${icon}@2x.png`);
     $('#temperature').html(response.main.temp + ' &#176;F');
@@ -148,39 +135,17 @@ function displayCurrentWeather(response) {
 }
 
 function displayUVIndex(data) {
-    $('#uv-index').html(`${data.value}`);
+    let uvi = data.current.uvi
+    $('#uv-index').html(`${uvi}`);
     $('#uv-index').removeClass();
-    if (data.value > 10) $('#uv-index').addClass('extreme');
-    else if (data.value >= 8) $('#uv-index').addClass('very-high');
-    else if (data.value >= 6) $('#uv-index').addClass('high');
-    else if (data.value >= 3) $('#uv-index').addClass('moderate');
+    if (uvi > 10) $('#uv-index').addClass('extreme');
+    else if (uvi >= 8) $('#uv-index').addClass('very-high');
+    else if (uvi >= 6) $('#uv-index').addClass('high');
+    else if (uvi >= 3) $('#uv-index').addClass('moderate');
     else $('#uv-index').addClass('favorable');
 }
 
-function find3pmTimes(array) {
-    fiveDayForecasts = [];
-    let timeRegex = /15:00:00/
-
-    for (let i = 0; i < array.length; i++) {
-        if (timeRegex.test(array[i].dt_txt)) {
-            fiveDayForecasts.push(i);
-        }
-    }
-}
-
-function formatDate(str) {
-    let year = str.slice(0, 4);
-    let month = str.slice(5, 7);
-    let day = str.slice(8, 10);
-    return `${month}/${day}/${year}`;
-}
-
-function getCurrentDate() {
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear();
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-    return mm + '/' + dd + '/' + yyyy;
+function formatDate(num) {
+    let date = new Date(num * 1000);
+    return date.toLocaleDateString();
 }
