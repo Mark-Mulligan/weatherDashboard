@@ -4,7 +4,23 @@ let cityName = '';
 const apiKey = "af81902a8a73c933aeffc3228ff6f7f1";
 const units = "imperial";
 
+
+if (JSON.parse(localStorage.getItem('citySearchHistory')) !== null &&
+    JSON.parse(localStorage.getItem('citySearchHistory')).length > 0) {
+    console.log('local storage called');
+    citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
+    citySearchHistory.forEach(function (city) {
+        $('.search-list').append(`<div class="search-item">${city}</div>`);
+    })
+    $('.search-list').removeClass('invisible');
+    $('.reset-btn').removeClass('invisible');
+
+    cityName = citySearchHistory[0];
+    getWeatherDataAndDisplayIt();
+}
+
 /* ----- EVENT LISTENERS ----- */
+// note, needs to be called after generating search list in function above, not before
 $('.search-item').click(handleSearchHistoryClick);
 
 $('#search-btn').click(function () {
@@ -25,20 +41,6 @@ $('#reset-searches-btn').click(function () {
     $('.search-list').addClass('invisible');
     $('.reset-btn').addClass('invisible');
 })
-
-if (JSON.parse(localStorage.getItem('citySearchHistory')) !== null &&
-    JSON.parse(localStorage.getItem('citySearchHistory')).length > 0) {
-    console.log('local storage called');
-    citySearchHistory = JSON.parse(localStorage.getItem('citySearchHistory'));
-    citySearchHistory.forEach(function (city) {
-        $('.search-list').append(`<div class="search-item">${city}</div>`);
-    })
-    $('.search-list').removeClass('invisible');
-    $('.reset-btn').removeClass('invisible');
-
-    cityName = citySearchHistory[0];
-    getWeatherDataAndDisplayIt();
-}
 
 /* ----- FUNCTIONS ----- */
 

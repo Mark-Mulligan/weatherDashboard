@@ -66,8 +66,6 @@ h2 {
     display: inline-block;
 }
 
-
-
 .search-item {
     border-bottom: solid 1px;
     padding: 5px;
@@ -77,6 +75,10 @@ h2 {
 .search-item:hover {
     cursor: pointer;
     background-color: rgb(170, 170, 170);
+}
+
+.search-item::after {
+    background-color: white;
 }
 
 .reset-btn {
