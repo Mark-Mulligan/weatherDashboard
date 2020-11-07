@@ -7,5 +7,5 @@ The weather data in the website is provided by openWeatherApi (third party API).
 The program can be viewed live using the link below.  
 https://markmulligan97.github.io/weatherDashboard/
 
-![screenshot of the weather dashboard](./Assets/images/weatherDashboardScreenshot.png) ("Weather Dashboard")
+![screenshot of the weather dashboard](./Assets/images/weatherDashboardScreenshot.png) 
 
