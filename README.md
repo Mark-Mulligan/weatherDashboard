@@ -5,7 +5,7 @@ This website allows the user to search for a major city anywhere in the world an
 The weather data in the website is provided by openWeatherApi (third party API).  Specifically, the jQuery ajax method is used to make the GET requests from this api.  
 
 The program can be viewed live using the link below.  
-https://markmulligan97.github.io/weatherDashboard/
+https://mark-mulligan.github.io/weatherDashboard/
 
 ![screenshot of the weather dashboard](./Assets/images/weatherDashboardScreenshot.png) 
 
